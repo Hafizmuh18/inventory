@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class ShopItem {
   final String name;
   final IconData icon;
+  final Color color;
 
-  ShopItem(this.name, this.icon);
+  ShopItem(this.name, this.color, this.icon);
 }
 
 class ShopCard extends StatelessWidget {
@@ -17,7 +18,7 @@ class ShopCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.indigo,
+      color: item.color,
       child: InkWell(
         // Area responsive terhadap sentuhan
         onTap: () {
@@ -57,9 +58,9 @@ class ShopCard extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
     MyHomePage({Key? key}) : super(key: key);
     final List<ShopItem> items = [
-        ShopItem("Lihat Item", Icons.remove_red_eye_outlined),
-        ShopItem("Tambah Item", Icons.add_circle_outline),
-        ShopItem("Logout", Icons.logout),
+        ShopItem("Lihat Item", Colors.lightBlue,Icons.remove_red_eye_outlined),
+        ShopItem("Tambah Item", Colors.green,Icons.add_circle_outline),
+        ShopItem("Logout", Colors.red, Icons.logout),
     ];
 
     @override
@@ -79,7 +80,6 @@ class MyHomePage extends StatelessWidget {
                 children: <Widget>[
                   const Padding(
                     padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    // Widget Text untuk menampilkan tulisan dengan alignment center dan style yang sesuai
                     child: Text(
                       'PBP Shop', // Text yang menandakan toko
                       textAlign: TextAlign.center,
@@ -100,6 +100,7 @@ class MyHomePage extends StatelessWidget {
                     shrinkWrap: true,
                     children: items.map((ShopItem item) {
                       // Iterasi untuk setiap item
+
                       return ShopCard(item);
                     }).toList(),
                   ),
@@ -109,14 +110,5 @@ class MyHomePage extends StatelessWidget {
           ),
         );
     }
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
 }
