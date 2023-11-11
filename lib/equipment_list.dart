@@ -1,28 +1,17 @@
-// TODO Implement this library.
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:inventory/equipment_form.dart';
-import 'package:inventory/equipment_list.dart';
+import 'package:inventory/SharedList.dart';
+import 'package:inventory/main.dart';
 import 'package:inventory/widgets/drawer.dart';
 
+class EquipmentCard extends StatelessWidget {
+  final Equipment item;
 
-class OptionList {
-  final String name;
-  final IconData icon;
-  final Color color;
-
-  OptionList(this.name, this.color, this.icon);
-}
-
-class Guild extends StatelessWidget {
-  final OptionList item;
-
-  const Guild(this.item, {super.key}); // Constructor
+  const EquipmentCard(this.item, {super.key}); // Constructor
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: item.color,
+      color: Colors.brown[700],
       child: InkWell(
         // Area responsive terhadap sentuhan
         onTap: () {
@@ -31,21 +20,6 @@ class Guild extends StatelessWidget {
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
                 content: Text("Kamu telah menekan tombol ${item.name}!")));
-          if(item.name == "Add Equipment"){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => EquipmentFormPage()),
-            );
-          }
-          if(item.name == "See Equipment"){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => EquipmentList()),
-            );
-          }
-          if(item.name == "Back to Town"){
-            SystemNavigator.pop();
-          }
         },
         
         child: Container(
@@ -55,12 +29,6 @@ class Guild extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  item.icon,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                const Padding(padding: EdgeInsets.all(3)),
                 Text(
                   item.name,
                   textAlign: TextAlign.center,
@@ -75,20 +43,14 @@ class Guild extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-    MyHomePage({Key? key}) : super(key: key);
-    final List<OptionList> items = [
-        OptionList("See Equipment", Colors.lightBlue,Icons.remove_red_eye_outlined),
-        OptionList("Add Equipment", Colors.green,Icons.add_circle_outline),
-        OptionList("Back to Town", Colors.red, Icons.logout),
-    ];
+class EquipmentList extends StatelessWidget {
+    EquipmentList({Key? key}) : super(key: key);
+    List<Equipment> myList = SharedList().myList;
 
     @override
     Widget build(BuildContext context) {
         return Scaffold(
-          backgroundColor: Colors.brown[900],
           appBar: AppBar(
-            backgroundColor: Color.fromARGB(0, 62, 2, 2),
             title: const Text(
               'Adventure',
             ),
@@ -104,7 +66,7 @@ class MyHomePage extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                     child: Text(
-                      'Guild', // Text yang menandakan toko
+                      'My Equipment', // Text yang menandakan toko
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 30,
@@ -121,9 +83,9 @@ class MyHomePage extends StatelessWidget {
                     mainAxisSpacing: 10,
                     crossAxisCount: 3,
                     shrinkWrap: true,
-                    children: items.map((OptionList item) {
+                    children: myList.map((Equipment item) {
                       // Iterasi untuk setiap item
-                      return Guild(item);
+                      return EquipmentCard(item);
                     }).toList(),
                   ),
                 ],

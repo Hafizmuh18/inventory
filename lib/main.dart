@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:inventory/menu.dart';
+import 'SharedList.dart';
 
 void main() {
+  SharedList().myList = [];
   runApp(const MyApp());
+}
+
+class Equipment{
+  final String name;
+  final int power;
+  final int amount;
+  final String type;
+  final String skill;
+  final String description;
+
+  Equipment(this.name, this.power, this.amount, this.type, this.skill, this.description);
+
 }
 
 class MyApp extends StatelessWidget {
@@ -12,7 +26,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'RPG Mobile',
+      color: Colors.brown[600],
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -29,7 +44,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 114, 51, 9)),
         useMaterial3: true,
       ),
       home: MyHomePage(),
