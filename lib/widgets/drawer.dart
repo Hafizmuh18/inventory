@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inventory/equipment_form.dart';
-import 'package:inventory/equipment_list.dart';
 import 'package:inventory/menu.dart';
+import 'package:inventory/screens/list_equipment.dart';
 
 class Option extends StatelessWidget {
   const Option({super.key});
@@ -61,7 +61,7 @@ class Option extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => EquipmentList()),
+                MaterialPageRoute(builder: (context) => const ProductPage()),
               );
             },
           ),

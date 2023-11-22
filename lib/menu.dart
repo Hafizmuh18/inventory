@@ -2,8 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:inventory/equipment_form.dart';
-import 'package:inventory/equipment_list.dart';
+import 'package:inventory/screens/list_equipment.dart';
+import 'package:inventory/screens/login.dart';
 import 'package:inventory/widgets/drawer.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 
 class OptionList {
@@ -21,11 +24,12 @@ class Guild extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Material(
       color: item.color,
       child: InkWell(
         // Area responsive terhadap sentuhan
-        onTap: () {
+        onTap: () async {
           // Memunculkan SnackBar ketika diklik
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -40,11 +44,28 @@ class Guild extends StatelessWidget {
           if(item.name == "See Equipment"){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => EquipmentList()),
+              MaterialPageRoute(builder: (context) => const ProductPage()),
             );
           }
           if(item.name == "Back to Town"){
-            SystemNavigator.pop();
+            final response = await request.logout(
+            // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL! https://muhammad-hafiz23-tugas.pbp.cs.ui.ac.id/auth/logout/  http://127.0.0.1:8000/auth/logout/
+            "https://muhammad-hafiz23-tugas.pbp.cs.ui.ac.id/auth/logout/");
+        String message = response["message"];
+        if (response['status']) {
+          String uname = response["username"];
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("$message Sampai jumpa, $uname."),
+          ));
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("$message"),
+          ));
+        }
           }
         },
         
